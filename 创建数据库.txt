@@ -1,0 +1,112 @@
+网上图书商店 简易分析
+
+1. 前段部分 + 后端部分
+
+2. 数据表： 用户表 图书表 订单表
+
+3. 用户： 登陆注册 查看图书  搜索图书  查看图书详情  购买  支付
+
+   商家： 登陆注册 添加库存  搜索   订单处理  销售排行
+
+二、 完成用户的登录、注册
+
+1、用户表 uid username password 昵称 邮箱  性别 头像 角色 注册日期
+
+create database bookstore;
+
+use bookstore;
+
+create table users(
+ uid Integer primary key auto_increment,
+ userName varchar(20) not null,
+ passWord varchar(20) not null,
+ nickName varchar(20) default "player",
+ email  varchar(40),
+ gender varchar(10),
+ photo varchar(40),
+ role  Integer default 1,
+ date date
+);
+
+2、写 login.jsp register.jsp 页面
+
+3、业务逻辑 
+
+三、图书表
+
+1、类型表
+
+create table booktype(
+ tid int primary key auto_increment,
+ tname varchar(20)
+);
+
+2、 图书商品表
+
+create table books(
+ bid int primary key auto_increment,
+ bname varchar(20) not null,
+ author varchar(20) not null,
+ tid int,
+ press varchar(20),
+ price double,
+ count int,
+ date date,
+ description text,
+ icon varchar(50),
+ outcount int,
+ foreign key(tid) references booktype(tid)
+);
+
+3、购物车
+
+购物id 商品id  用户id 商品数量 
+
+create table cart(
+  cid int primary key auto_increment,
+  bid int,
+  num int,
+  uid int,
+  foreign key(bid) references books(bid),
+  foreign key(uid) references users(uid)
+);
+
+4、订单操作
+
+1、数据表 orders
+
+订单id  订单编号 用户id 送货地址  联系人 电话 
+
+create table orders(
+ oid int primary key auto_increment,
+ ono int ,
+ uid int,
+ address text,
+ userName varchar(20),
+ phone int,
+ foreign key(uid) references users(uid)
+);
+
+2、订单项 order-item
+
+订单id  图书id  图书数量 
+
+create table orderitem(
+ itid int primary key auto_increment,
+ bid int,
+ oid int,
+ bname varchar(20),
+ num int,
+ foreign key(bid) references books(bid),
+ foreign key(oid) references orders(oid)
+);
+
+
+
+
+
+
+
+
+
+
